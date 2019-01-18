@@ -20,6 +20,9 @@ const Page = db.define('page', {
   slug: {
     type: Sequelize.STRING,
     allowNull: false,
+    valide: {
+      notEmpty: true,
+    },
   },
   content: {
     type: Sequelize.TEXT,
@@ -35,7 +38,9 @@ const User = db.define('user', {
   name: {
     type: Sequelize.STRING,
     allowNull: false,
-    notEmpty: true,
+    validate: {
+      notEmpty: true,
+    },
   },
   email: {
     type: Sequelize.STRING,
