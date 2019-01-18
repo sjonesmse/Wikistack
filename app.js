@@ -12,13 +12,15 @@ app.use(express.json());
 // app.use('/posts', require('./routes/posts'));
 const layout = require('./views/layout');
 
+db.authenticate().then(() => {
+  console.log('connected to the database');
+});
+
 app.get('/', (req, res) => {
   res.send(layout(''));
 });
 
-db.authenticate().then(() => {
-  console.log('connected to the database');
-});
+
 
 const PORT = 1337;
 
