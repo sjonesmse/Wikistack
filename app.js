@@ -2,6 +2,9 @@ const express = require('express');
 const morgan = require('morgan');
 const bodyParse = require('body-parser');
 const { db } = require('./models');
+const models = require('./models');
+const wikiRouter = require('./routes/wiki');
+const userRouter = require('./routes/user');
 
 const app = express();
 app.use(morgan('dev'));
@@ -20,12 +23,19 @@ app.get('/', (req, res) => {
   res.send(layout(''));
 });
 
-
+app.use('/wiki', wikiRouter);
+app.use('/user', userRouter);
 
 const PORT = 1337;
 
-app.listen(PORT, () => {
-  console.log(`App listening in port ${PORT}`);
-});
+const init = async () => {
+  await models.db.sync({ force: true });
 
-if (!module.parent) app.listen(3000);
+  app.listen(PORT, () => {
+    console.log(`App listening in port ${PORT}`);
+  });
+
+  if (!module.parent) app.listen(3000);
+};
+
+init();
